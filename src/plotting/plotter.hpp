@@ -22,10 +22,10 @@ namespace plotting {
 
         std::unique_ptr<components::FigureWindow> window_ { nullptr };
 
-        explicit Figure() {
-        }
-
     public:
+        explicit Figure() {
+            this->set_up();
+        }
         ~Figure() override {
             ImGui_ImplSDLRenderer3_Shutdown();
             ImGui_ImplSDL3_Shutdown();
@@ -58,10 +58,6 @@ namespace plotting {
                         .width = APP_WIDTH,
                         .height = APP_HEIGHT
             });
-            std::cout<< "hello there " << std::endl;
-            std::cout<< "hello there " << std::endl;
-            std::cout<< "hello there " << std::endl;
-
         };
 
         auto run() -> int override {

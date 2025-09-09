@@ -15,7 +15,7 @@ namespace plotting::primitives {
     public:
         virtual ~AppBase() = default;
         virtual auto set_up() -> void = 0;
-        virtual auto  run() -> void = 0;
+        virtual auto  run() -> int = 0;
     };
 }
 
