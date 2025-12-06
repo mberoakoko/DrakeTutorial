@@ -105,5 +105,33 @@ namespace examples::authoring_leaf_systems {
         std::cout << "Input Value u[k]: " << input_vector(0) << std::endl;
         std::cout << "Final Accumulated Sum x[1] (at t=1.0): " << final_sum(0) << std::endl;
     }
+
+    namespace continous_integrator {
+        namespace config {
+            constexpr std::string_view CONTINOUS_INTEGRATOR_INPUT_PORT = "u";
+            constexpr std::string_view CONTINOUS_INTEGRATOR_OUTPUT_PORT = "x";
+
+            constexpr std::uint8_t INPUT_PORT_SIZE = 1;
+            constexpr std::uint8_t OUTPUT_PORT_SIZE = 1;
+        }
+
+        class MyContinousIntegrator final : public drake::systems::LeafSystem<double> {
+        public:
+            explicit MyContinousIntegrator() {
+                this->DeclareVectorInputPort(std::string(config::CONTINOUS_INTEGRATOR_INPUT_PORT).c_str(), config::INPUT_PORT_SIZE);
+                this->DeclareVectorOutputPort(std::string(config::CONTINOUS_INTEGRATOR_OUTPUT_PORT).c_str(), config::OUTPUT_PORT_SIZE, &MyContinousIntegrator::output);
+            }
+
+        private:
+            auto update(const drake::systems::Context<double>& ctx, drake::systems::BasicVector<double>* derivatives) const -> void {
+
+            }
+
+
+            auto output(const drake::systems::Context<double>& ctx, drake::systems::BasicVector<double>* output) const -> void {
+
+            }
+        };
+    }
 }
 #endif //DRAKETUTORIAL_LEAF_SYSTEMS_HPP
