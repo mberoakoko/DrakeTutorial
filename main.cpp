@@ -5,6 +5,7 @@
 #include <drake/common/text_logging.h>
 
 #include "src/examples/fibonnaci_diff_eqn/fib_runner.h"
+#include "src/examples/website_tutorials/leaf_systems.hpp"
 #include "src/plotting/plotter.hpp"
 
 namespace examples {
@@ -46,7 +47,6 @@ namespace examples {
 
 int main() {
     // examples::fib_sim::run_fibonnacci_simulation();
-    plotting::Figure figure{};
-    figure.run();
+    examples::authoring_leaf_systems::run_adder();
     return 0;
 }

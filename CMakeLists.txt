@@ -21,7 +21,9 @@ add_executable(DrakeTutorial main.cpp
         src/examples/fibonnaci_diff_eqn/fib_ops.h
         src/examples/fibonnaci_diff_eqn/fib_runner.h
         src/plotting/plotter.hpp
-        src/plotting/utills/plotter_primitives.hpp)
+        src/plotting/utills/plotter_primitives.hpp
+        src/examples/website_tutorials/leaf_systems.hpp
+        src/examples/random_exploration/fun_with_types/behavioral_subtyping.hpp)
 target_link_libraries(DrakeTutorial drake::drake SDL3::SDL3 imgui)
 
 target_include_directories(DrakeTutorial
