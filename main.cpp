@@ -47,6 +47,6 @@ namespace examples {
 
 int main() {
     // examples::fib_sim::run_fibonnacci_simulation();
-    examples::authoring_leaf_systems::run_adder();
+    examples::authoring_leaf_systems::run_accumulator();
     return 0;
 }

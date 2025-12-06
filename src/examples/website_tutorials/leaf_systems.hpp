@@ -19,8 +19,8 @@ namespace examples::authoring_leaf_systems {
       explicit MyAdder() {
           this-> DeclareVectorInputPort("a", 2);
           this->DeclareVectorInputPort("b", 2);
-          this->DeclareVectorOutputPort(std::string(SUM_PORT).c_str(), 2, &MyAdder::calc_difference);
-          this->DeclareVectorOutputPort(std::string(DIFFERENCE_PORT).c_str(), 2, &MyAdder::calc_sum);
+          this->DeclareVectorOutputPort(std::string(SUM_PORT).c_str(), 2, &MyAdder::calc_sum);
+          this->DeclareVectorOutputPort(std::string(DIFFERENCE_PORT).c_str(), 2, &MyAdder::calc_difference);
 
       }
         auto calc_sum(const drake::systems::Context<double>& ctx, drake::systems::BasicVector<double>* output) const -> void {
@@ -64,20 +64,23 @@ namespace examples::authoring_leaf_systems {
     class MyAccumulator final: public drake::systems::LeafSystem<double> {
     public:
         explicit MyAccumulator() {
-            this->DeclareDiscreteState(0.0);
+            this->DeclareDiscreteState(1);
             this->DeclareVectorInputPort(std::string(MY_ACCUMULATOR_INPUT_PORT).c_str(), 1);
             this->DeclareVectorOutputPort(std::string(MY_ACCUMULATOR_OUTPUT_PORT).c_str(),  1, &MyAccumulator::calc_accumulated_sum);
         }
 
     private:
         auto calc_accumulated_sum(const drake::systems::Context<double>& ctx, drake::systems::BasicVector<double>* output) const -> void {
-            const auto input_value = this->get_input_port(0).Eval(ctx);
-            const auto internal_state = ctx.get_discrete_state();
-
+            const auto& current_state = ctx.get_discrete_state(0).get_value();
+            output->SetFromVector(current_state);
         }
 
-        auto calc_discrete_state(const drake::systems::Context<double>& ctx, drake::systems::BasicVector<double>* output) const -> void {
-
+        auto calc_discrete_state(const drake::systems::Context<double>& ctx, drake::systems::DiscreteValues<double>* updates) const -> void {
+            auto current_state = ctx.get_discrete_state(0).get_value();
+            auto x_k = current_state(0);
+            const auto& u_k_vector = this->get_input_port(0).Eval(ctx);
+            const auto u_k = u_k_vector(0);
+            (*updates)[0] = x_k + u_k;
         }
 
     };
