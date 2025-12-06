@@ -81,5 +81,29 @@ namespace examples::authoring_leaf_systems {
         }
 
     };
+
+
+    inline auto run_accumulator() -> void {
+        MyAccumulator my_accumulator;
+        auto context = my_accumulator.CreateDefaultContext();
+        drake::systems::Simulator simulator(my_accumulator, std::move(context));
+        double initial_value = 5.0;
+        Eigen::Vector<double, 1> input_vector(initial_value);
+        std::cout << "input vector : " << input_vector << std::endl;
+        my_accumulator.get_input_port(0).FixValue(&simulator.get_mutable_context(), input_vector);
+        simulator.AdvanceTo(1);
+
+        const auto& final_context = simulator.get_context();
+        const auto& output_port = my_accumulator.get_output_port(0);
+
+        auto output = my_accumulator.AllocateOutput();
+        output_port.Calc(final_context, output->GetMutableData(0));
+
+        const auto final_sum = output->get_vector_data(0)->get_value();
+
+        std::cout << "Initial Value x[0]: " << initial_value << std::endl;
+        std::cout << "Input Value u[k]: " << input_vector(0) << std::endl;
+        std::cout << "Final Accumulated Sum x[1] (at t=1.0): " << final_sum(0) << std::endl;
+    }
 }
 #endif //DRAKETUTORIAL_LEAF_SYSTEMS_HPP
