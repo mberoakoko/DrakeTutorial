@@ -127,12 +127,15 @@ namespace examples::authoring_leaf_systems {
 
         private:
             auto update(const drake::systems::Context<double>& ctx, drake::systems::BasicVector<double>* derivatives) const -> void {
-
+                const auto& u_vector = this->get_input_port(0).Eval(ctx);
+                auto x_dot = derivatives->get_mutable_value();
+                x_dot  =  u_vector;
             }
 
 
             auto output(const drake::systems::Context<double>& ctx, drake::systems::BasicVector<double>* output) const -> void {
-
+                const auto& continous_State_vector = ctx.get_continuous_state().get_vector();
+                output->SetFromVector(continous_State_vector.CopyToVector());
             }
         };
     }
